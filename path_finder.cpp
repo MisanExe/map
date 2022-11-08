@@ -196,8 +196,10 @@ position path_finder::calculate_nav(position cell){
         right.f_value = getF_value(right.nav_cell);
     }
     
+    //compare_nav(up, down, left, right);
+    
     //find the max
-    nav max;
+    nav max = compare_nav(up, down, left, right);
     if(up.valid){
         max.nav_cell.row = up.nav_cell.row;
         max.nav_cell.column = up.nav_cell.column;
@@ -212,23 +214,7 @@ position path_finder::calculate_nav(position cell){
         max.nav_cell.row = down.nav_cell.row;
         max.nav_cell.column = down.nav_cell.column;
     }
-    
-    /*if(up.valid && (up.f_value < right.f_value && up.f_value < left.f_value && up.f_value < down.f_value)){
-        max.nav_cell.row = up.nav_cell.row;
-        max.nav_cell.column = up.nav_cell.column;
-        
-    }else if (right.valid && (right.f_value < up.f_value && right.f_value < left.f_value && right.f_value < down.f_value)){
-        max.nav_cell.row = right.nav_cell.row;
-        max.nav_cell.column = right.nav_cell.column;
-        
-    }else if (left.valid && (left.f_value < right.f_value && left.f_value < up.f_value && left.f_value < down.f_value)){
-        max.nav_cell.row = left.nav_cell.row;
-        max.nav_cell.column = left.nav_cell.column;
-        
-    }else if (down.valid && (down.f_value < right.f_value && down.f_value < left.f_value && down.f_value < up.f_value)){
-        max.nav_cell.row = down.nav_cell.row;
-        max.nav_cell.column = down.nav_cell.column;
-    }*/
+
     
 
     cout<<"next cell : Row "<<max.nav_cell.row<<" Column : "<<max.nav_cell.column<<endl;
@@ -238,8 +224,70 @@ position path_finder::calculate_nav(position cell){
 
 
 void path_finder::update_map(){
+    if(Cell.row == Stop.row-1 && Cell.column == Stop.column-1){
+        search_complete = true;
+        cout<<"\n\n";
+    }
     Cell = calculate_nav(Cell);
     my_map[Cell.row][Cell.column] = 8;
 }
 
+nav path_finder::compare_nav(nav up, nav down, nav left, nav right){
+    vector<int> temp_val {-1,-1,-1,-1};
+    int max =0;
+    int first_index =0;
+    bool equal_found = false;
+    int equal_index[4] = {-1,-1,-1,-1};
+    int equal_index_temp = -1;
+    
+    if(up.valid){
+        temp_val[0] = up.f_value;
+        max = up.f_value;
+    }else if(down.valid){
+        temp_val[1] = down.f_value;
+        max = down.f_value;
+    }else if(left.valid){
+        temp_val[2] = left.f_value;
+        max = left.f_value;
+    }else if(right.valid){
+        temp_val[3] = right.f_value;
+        max = right.f_value;
+    }
+    
+    
+    for(int i = 0; i < temp_val.size(); i++){
+        if(max < temp_val[i] && temp_val[i] != -1){
+            max == temp_val[i];
+            first_index = i;
+        }else if(max == temp_val[i] && temp_val[i] != -1){
+            equal_found = true;
+            equal_index[i] = i;
+            equal_index_temp = i;
+        }
+    }
+    
+   /* if(equal_found){
+        if(equal_index_temp == 0){
+            return up;
+        }else if(equal_index_temp == 1){
+            return down;
+        }else if(equal_index_temp == 2){
+            return left;
+        }else if(equal_index_temp == 3){
+            return right;
+        }
+    }else{
+        
+        if(first_index == 0){
+            return up;
+        }else if(first_index == 1){
+            return down;
+        }else if(first_index == 2){
+            return left;
+        }else if(first_index == 3){
+            return right;
+        }
+    }*/
+    
+}
 

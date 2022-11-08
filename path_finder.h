@@ -57,6 +57,7 @@ class path_finder{
         int getG_value(position node_pos);
         int getH_value(position node_pos);
         int getF_value(position node_pos);
+        nav compare_nav(nav up, nav down, nav left, nav right);
     
     
 };
