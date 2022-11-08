@@ -25,9 +25,6 @@ int main()
        my_path.update_map(); 
     }
     
-   // for(int i = 0 ; i < 20; i++){
-     //  my_path.update_map();  
-    //}
     
     my_path.printRawMap();
     my_path.print2dMap();
